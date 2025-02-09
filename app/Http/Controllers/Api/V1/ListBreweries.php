@@ -24,7 +24,7 @@ class ListBreweries extends Controller
             // filters
             'by_city' => 'string|max:255',
             'by_country' => 'string|max:255',
-            // TODO: by_dist
+            'by_dist' => 'string|regex:/^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/',
             'by_name' => 'string|max:255',
             'by_postal' => 'string|max:255',
             'by_state' => 'string|max:255',
@@ -109,8 +109,11 @@ class ListBreweries extends Controller
             );
 
         return response()->json(
-            data: BreweryResource::collection($breweries),
-            status: Response::HTTP_OK,
+            BreweryResource::collection($breweries),
+            Response::HTTP_OK,
+            [
+                'Cache-Control' => 'max-age=300, public'
+            ]
         );
     }
 }
