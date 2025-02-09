@@ -54,6 +54,46 @@ class BreweryFactory extends Factory
     }
 
     /**
+     * Set a specific city for the brewery.
+     */
+    public function inCity(string $city): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'city' => $city,
+        ]);
+    }
+
+    /**
+     * Set a specific state/province for the brewery.
+     */
+    public function inState(string $state): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'province' => $state,
+        ]);
+    }
+
+    /**
+     * Set a specific country for the brewery.
+     */
+    public function inCountry(string $country): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'country' => $country,
+        ]);
+    }
+
+    /**
+     * Set a specific type for the brewery.
+     */
+    public function ofType(string $type): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'type' => $type,
+        ]);
+    }
+
+    /**
      * Set the brewery as closed.
      */
     public function closed(): static
