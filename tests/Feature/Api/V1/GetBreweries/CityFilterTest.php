@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\V1\GetBreweries;
 
 use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
-use Tests\Feature\Api\ApiTestCase;
 
 beforeEach(function () {
     Cache::flush();
@@ -13,10 +12,10 @@ beforeEach(function () {
 test('returns breweries filtered by city', function () {
     // Create breweries with different cities
     $breweries = Brewery::factory()->count(5)->create([
-        'city' => 'San Diego'
+        'city' => 'San Diego',
     ]);
     Brewery::factory()->count(5)->create([
-        'city' => 'San Antonio'
+        'city' => 'San Antonio',
     ]);
 
     // Filter by specific city
@@ -32,8 +31,8 @@ test('returns breweries filtered by city', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
     $cities = collect($response->json())->pluck('city');
     expect($cities->contains('San Antonio'))->toBeFalse();
@@ -43,13 +42,13 @@ test('returns breweries filtered by city', function () {
 test('returns breweries filtered by multiple cities', function () {
     // Create breweries in different cities
     $breweries = Brewery::factory()->count(5)->create([
-        'city' => 'San Diego'
+        'city' => 'San Diego',
     ]);
     Brewery::factory()->count(5)->create([
-        'city' => 'San Antonio'
+        'city' => 'San Antonio',
     ]);
     Brewery::factory()->count(5)->create([
-        'city' => 'New York'
+        'city' => 'New York',
     ]);
 
     // Filter by multiple cities
@@ -65,8 +64,8 @@ test('returns breweries filtered by multiple cities', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
     $cities = collect($response->json())->pluck('city');
     expect($cities->contains('New York'))->toBeFalse();
@@ -89,7 +88,7 @@ test('handles plus as space in city filter', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });

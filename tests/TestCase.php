@@ -8,8 +8,6 @@ abstract class TestCase extends BaseTestCase
 {
     /**
      * Indicates whether the default seeder should run before each test.
-     *
-     * @var bool
      */
     protected bool $seed = false;
 

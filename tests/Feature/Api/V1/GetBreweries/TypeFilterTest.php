@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Api\V1\GetBreweries;
 
-use App\Models\Brewery;
 use App\Enums\BreweryType;
+use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
-use Tests\Feature\Api\ApiTestCase;
 
 beforeEach(function () {
     Cache::flush();
@@ -14,10 +13,10 @@ beforeEach(function () {
 test('returns breweries filtered by type', function () {
     // Create breweries of different types
     $breweries = Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Micro
+        'brewery_type' => BreweryType::Micro,
     ]);
     Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Brewpub
+        'brewery_type' => BreweryType::Brewpub,
     ]);
 
     // Filter by specific type
@@ -33,8 +32,8 @@ test('returns breweries filtered by type', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
     $types = collect($response->json())->pluck('brewery_type');
     expect($types->contains('brewpub'))->toBeFalse();
@@ -44,10 +43,10 @@ test('returns breweries filtered by type', function () {
 test('returns empty list for invalid brewery type', function () {
     // Create breweries of different types
     $breweries = Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Micro
+        'brewery_type' => BreweryType::Micro,
     ]);
     Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Brewpub
+        'brewery_type' => BreweryType::Brewpub,
     ]);
 
     // Filter by invalid type
@@ -61,13 +60,13 @@ test('returns empty list for invalid brewery type', function () {
 test('returns breweries filtered by multiple types', function () {
     // Create breweries of different types
     $breweries = Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Micro
+        'brewery_type' => BreweryType::Micro,
     ]);
     Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Large
+        'brewery_type' => BreweryType::Large,
     ]);
     Brewery::factory()->count(5)->create([
-        'brewery_type' => BreweryType::Brewpub
+        'brewery_type' => BreweryType::Brewpub,
     ]);
 
     // Filter by multiple types
@@ -83,8 +82,8 @@ test('returns breweries filtered by multiple types', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
     $types = collect($response->json())->pluck('brewery_type');
     expect($types->contains('brewpub'))->toBeFalse();

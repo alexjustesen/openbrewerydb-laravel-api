@@ -1,10 +1,9 @@
 <?php
-
+use App\Http\Controllers\Api\V1\GetBreweriesMeta;
 use App\Http\Controllers\Api\V1\GetBrewery;
 use App\Http\Controllers\Api\V1\ListBreweries;
 use App\Http\Controllers\Api\V1\RandomBrewery;
 use App\Http\Controllers\Api\V1\SearchBreweries;
-use App\Http\Controllers\Api\V1\GetBreweriesMeta;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {

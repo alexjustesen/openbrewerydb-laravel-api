@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\V1\GetBreweries;
 
 use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
-use Tests\Feature\Api\ApiTestCase;
 
 beforeEach(function () {
     Cache::flush();
@@ -13,10 +12,10 @@ beforeEach(function () {
 test('returns breweries filtered by name', function () {
     // Create breweries with different names
     $breweries = Brewery::factory()->count(5)->create([
-        'name' => 'test brewery'
+        'name' => 'test brewery',
     ]);
     Brewery::factory()->count(5)->create([
-        'name' => 'another brewery'
+        'name' => 'another brewery',
     ]);
 
     // Filter by specific name
@@ -32,8 +31,8 @@ test('returns breweries filtered by name', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
     $names = collect($response->json())->pluck('name');
     expect($names->contains('another brewery'))->toBeFalse();
@@ -55,7 +54,7 @@ test('handles different space formats in name filter', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });

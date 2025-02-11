@@ -44,7 +44,7 @@ class ListBreweries extends Controller
                 $cityArray = array_map('trim', explode(',', $request->input('by_city')));
                 $query->where(function ($q) use ($cityArray) {
                     foreach ($cityArray as $city) {
-                        $q->orWhere('city', 'like', '%' . $city . '%');
+                        $q->orWhere('city', 'like', '%'.$city.'%');
                     }
                 });
             })
@@ -53,7 +53,7 @@ class ListBreweries extends Controller
             })
             ->when($request->has('by_name'), function ($query) use ($request) {
                 $name = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], Str::trim($request->input('by_name')));
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($name) . '%']);
+                $query->whereRaw('LOWER(name) LIKE ?', ['%'.strtolower($name).'%']);
             })
             ->when($request->has('by_postal'), function ($query) use ($request) {
                 $query->where('postal_code', 'like', '%'.Str::trim($request->input('by_postal')).'%');
@@ -134,7 +134,7 @@ class ListBreweries extends Controller
             BreweryResource::collection($breweries),
             Response::HTTP_OK,
             [
-                'Cache-Control' => 'max-age=300, public'
+                'Cache-Control' => 'max-age=300, public',
             ]
         );
     }

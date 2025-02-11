@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
-use Tests\Feature\Api\ApiTestCase;
 
 beforeEach(function () {
     Cache::flush();
@@ -38,7 +36,7 @@ test('returns 404 for non-existent brewery', function () {
 test('brewery is cached after first request', function () {
     $brewery = createBrewery();
     $response = $this->getJson("/v1/breweries/{$brewery->id}");
-    $hasCache = Cache::has('brewery_' . $brewery->id);
+    $hasCache = Cache::has('brewery_'.$brewery->id);
     expect($hasCache)->toBeTrue();
 });
 
