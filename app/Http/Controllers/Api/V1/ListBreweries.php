@@ -19,6 +19,7 @@ class ListBreweries extends Controller
     {
         $validator = Validator::make($request->all(), [
             'per_page' => 'integer|min:1|max:500',
+            'page' => 'integer|min:1',
             'sort' => 'string',
 
             // filters
@@ -40,13 +41,19 @@ class ListBreweries extends Controller
         $breweries = Brewery::query()
             ->select('*')
             ->when($request->has('by_city'), function ($query) use ($request) {
-                $query->where('city', 'like', '%'.Str::trim($request->input('by_city')).'%');
+                $cityArray = array_map('trim', explode(',', $request->input('by_city')));
+                $query->where(function ($q) use ($cityArray) {
+                    foreach ($cityArray as $city) {
+                        $q->orWhere('city', 'like', '%' . $city . '%');
+                    }
+                });
             })
             ->when($request->has('by_country'), function ($query) use ($request) {
                 $query->where('country', 'like', '%'.Str::trim($request->input('by_country')).'%');
             })
             ->when($request->has('by_name'), function ($query) use ($request) {
-                $query->where('name', 'like', '%'.Str::trim($request->input('by_name')).'%');
+                $name = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], Str::trim($request->input('by_name')));
+                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($name) . '%']);
             })
             ->when($request->has('by_postal'), function ($query) use ($request) {
                 $query->where('postal_code', 'like', '%'.Str::trim($request->input('by_postal')).'%');
@@ -55,7 +62,7 @@ class ListBreweries extends Controller
                 $query->where('state_province', 'like', '%'.Str::trim($request->input('by_state')).'%');
             })
             ->when($request->has('by_type'), function ($query) use ($request) {
-                $query->where('brewery_type', '=', $request->input('by_type'));
+                $query->byType($request->input('by_type'));
             })
             ->when($request->has('by_ids'), function ($query) use ($request) {
                 $values = explode(',', $request->input('by_ids'));
@@ -104,8 +111,23 @@ class ListBreweries extends Controller
                     $query->orderBy($value[0], $value[1] ?? 'asc');
                 }
             })
-            ->simplePaginate(
-                perPage: $request->input('per_page', 50)
+            ->orderBy('id')
+            ->when(
+                $request->has('per_page') && $request->input('per_page') > 200,
+                function ($query) {
+                    return $query->paginate(
+                        perPage: 200,
+                        columns: ['*'],
+                        pageName: 'page'
+                    );
+                },
+                function ($query) use ($request) {
+                    return $query->paginate(
+                        perPage: $request->input('per_page', 50),
+                        columns: ['*'],
+                        pageName: 'page'
+                    );
+                }
             );
 
         return response()->json(
