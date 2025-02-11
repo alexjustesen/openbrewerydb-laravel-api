@@ -2,15 +2,13 @@
 
 namespace Tests\Feature\Api;
 
-use Tests\TestCase;
 use Illuminate\Testing\TestResponse;
+use Tests\TestCase;
 
 abstract class ApiTestCase extends TestCase
 {
     /**
      * Additional headers for API requests.
-     *
-     * @var array
      */
     protected array $headers = [
         'Accept' => 'application/json',
@@ -18,9 +16,6 @@ abstract class ApiTestCase extends TestCase
 
     /**
      * Create API test response.
-     *
-     * @param TestResponse $response
-     * @return TestResponse
      */
     protected function assertJsonApiResponse(TestResponse $response): TestResponse
     {
@@ -30,9 +25,6 @@ abstract class ApiTestCase extends TestCase
 
     /**
      * Assert that the response has a proper JSON API structure.
-     *
-     * @param TestResponse $response
-     * @return TestResponse
      */
     protected function assertJsonApiStructure(TestResponse $response): TestResponse
     {

@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\V1\GetBreweries;
 
 use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
-use Tests\Feature\Api\ApiTestCase;
 
 beforeEach(function () {
     Cache::flush();
@@ -13,10 +12,10 @@ beforeEach(function () {
 test('returns breweries filtered by state', function () {
     // Create breweries in different states
     $breweries = Brewery::factory()->count(5)->create([
-        'state_province' => 'California'
+        'state_province' => 'California',
     ]);
     Brewery::factory()->count(5)->create([
-        'state_province' => 'Texas'
+        'state_province' => 'Texas',
     ]);
 
     // Filter by specific state
@@ -32,8 +31,8 @@ test('returns breweries filtered by state', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
     $states = collect($response->json())->pluck('state_province');
     expect($states->contains('Texas'))->toBeFalse();
@@ -58,8 +57,8 @@ test('returns breweries with snake case state', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });
 
@@ -94,8 +93,8 @@ test('handles plus as space in state filter', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });
 
@@ -142,8 +141,8 @@ test('returns breweries with utf8 state names', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });
 
@@ -164,7 +163,7 @@ test('sanitizes sql like characters in state filter', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });

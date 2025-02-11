@@ -21,14 +21,14 @@ class GetBreweriesMeta extends Controller
         // Cache the meta data for 5 minutes since it's an expensive operation
         $metaData = Cache::remember('brewery_meta', 300, function () {
             $total = Brewery::count();
-            
+
             $byState = Brewery::query()
                 ->select('state_province', DB::raw('count(*) as count'))
                 ->whereNotNull('state_province')
                 ->groupBy('state_province')
                 ->pluck('count', 'state_province')
                 ->toArray();
-                
+
             $byType = Brewery::query()
                 ->select('brewery_type', DB::raw('count(*) as count'))
                 ->whereNotNull('brewery_type')
@@ -38,19 +38,19 @@ class GetBreweriesMeta extends Controller
                     return [strtolower($type) => $count];
                 })
                 ->toArray();
-                
+
             return [
                 'total' => $total,
                 'by_state' => $byState,
                 'by_type' => $byType,
             ];
         });
-            
+
         return response()->json(
             new BreweryMetaResource($metaData),
             Response::HTTP_OK,
             [
-                'Cache-Control' => 'max-age=300, public'
+                'Cache-Control' => 'max-age=300, public',
             ]
         );
     }

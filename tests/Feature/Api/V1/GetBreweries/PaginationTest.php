@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\V1\GetBreweries;
 
 use App\Models\Brewery;
 use Illuminate\Support\Facades\Cache;
-use Tests\Feature\Api\ApiTestCase;
 
 beforeEach(function () {
     Cache::flush();
@@ -55,8 +54,8 @@ test('returns limited number of breweries', function () {
                 'brewery_type',
                 'city',
                 'state_province',
-                'country'
-            ]
+                'country',
+            ],
         ]);
 });
 
