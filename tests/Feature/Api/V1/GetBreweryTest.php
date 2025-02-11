@@ -15,13 +15,13 @@ test('can get a brewery by id', function () {
         ->assertOk()
         ->assertJsonPath('id', $brewery->id)
         ->assertJsonPath('name', $brewery->name)
-        ->assertJsonPath('brewery_type', $brewery->type->value);
+        ->assertJsonPath('brewery_type', $brewery->brewery_type->value);
     expect($brewery)->toBeBrewery();
 });
 
 test('can get different types of breweries', function () {
-    $microBrewery = createBrewery(['type' => \App\Enums\BreweryType::Micro]);
-    $regionalBrewery = createBrewery(['type' => \App\Enums\BreweryType::Regional]);
+    $microBrewery = createBrewery(['brewery_type' => \App\Enums\BreweryType::Micro]);
+    $regionalBrewery = createBrewery(['brewery_type' => \App\Enums\BreweryType::Regional]);
     $response = $this->getJson("/v1/breweries/{$microBrewery->id}");
     expect($microBrewery)->toHaveBreweryType('micro');
     $this->assertJsonApiResponse($response)->assertOk();
