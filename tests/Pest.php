@@ -31,7 +31,7 @@ expect()->extend('toBeBrewery', function () {
 });
 
 expect()->extend('toHaveBreweryType', function (string $type) {
-    return $this->type->value->toBe($type);
+    return $this->brewery_type->value->toBe($type);
 });
 
 /*

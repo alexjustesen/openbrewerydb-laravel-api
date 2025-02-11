@@ -20,14 +20,14 @@ class BreweryFactory extends Factory
         return [
             'id' => fake()->uuid(),
             'name' => fake()->company(),
-            'type' => fake()->randomElement(BreweryType::cases()),
+            'brewery_type' => fake()->randomElement(BreweryType::cases()),
             'city' => fake()->city(),
-            'province' => fake()->state(),
+            'state_province' => fake()->state(),
             'country' => fake()->countryCode(),
             'address_1' => fake()->streetAddress(),
             'postal_code' => fake()->postcode(),
             'website_url' => fake()->url(),
-            'phone_number' => fake()->phoneNumber(),
+            'phone' => fake()->phoneNumber(),
             'latitude' => fake()->latitude(),
             'longitude' => fake()->longitude(),
         ];
@@ -39,7 +39,7 @@ class BreweryFactory extends Factory
     public function micro(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type' => 'micro',
+            'brewery_type' => BreweryType::Micro,
         ]);
     }
 
@@ -49,7 +49,7 @@ class BreweryFactory extends Factory
     public function regional(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type' => 'regional',
+            'brewery_type' => BreweryType::Regional,
         ]);
     }
 
@@ -69,7 +69,7 @@ class BreweryFactory extends Factory
     public function inState(string $state): static
     {
         return $this->state(fn (array $attributes) => [
-            'province' => $state,
+            'state_province' => $state,
         ]);
     }
 
@@ -86,10 +86,10 @@ class BreweryFactory extends Factory
     /**
      * Set a specific type for the brewery.
      */
-    public function ofType(string $type): static
+    public function ofType(BreweryType $type): static
     {
         return $this->state(fn (array $attributes) => [
-            'type' => $type,
+            'brewery_type' => $type,
         ]);
     }
 
@@ -99,7 +99,7 @@ class BreweryFactory extends Factory
     public function closed(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type' => 'closed',
+            'brewery_type' => BreweryType::Closed,
         ]);
     }
 }
