@@ -85,6 +85,19 @@ class ListBreweries extends Controller
                     })
                     ->toArray();
 
+                // Validate coordinates
+                if (count($values) !== 2) {
+                    abort(400, 'Invalid coordinates format');
+                }
+
+                if (!is_numeric($values[0]) || $values[0] < -90 || $values[0] > 90) {
+                    abort(400, 'Invalid latitude value');
+                }
+
+                if (!is_numeric($values[1]) || $values[1] < -180 || $values[1] > 180) {
+                    abort(400, 'Invalid longitude value');
+                }
+
                 $query->orderByDistance($values[0], $values[1]);
             })
             ->when($request->has('exclude_types'), function ($query) use ($request) {
