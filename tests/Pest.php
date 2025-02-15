@@ -11,9 +11,9 @@
 |
 */
 
-pest()->extend(Tests\TestCase::class)
+pest()->extend(Tests\Feature\Api\ApiTestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature/Api');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +26,12 @@ pest()->extend(Tests\TestCase::class)
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+expect()->extend('toBeBrewery', function () {
+    return $this->toBeInstanceOf(\App\Models\Brewery::class);
+});
+
+expect()->extend('toHaveBreweryType', function (string $type) {
+    return $this->brewery_type->value->toBe($type);
 });
 
 /*
@@ -41,7 +45,17 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createBrewery(array $attributes = [])
 {
-    // ..
+    return \App\Models\Brewery::factory()->create($attributes);
+}
+
+function makeBrewery(array $attributes = [])
+{
+    return \App\Models\Brewery::factory()->make($attributes);
+}
+
+function createBreweries(int $count, array $attributes = [])
+{
+    return \App\Models\Brewery::factory()->count($count)->create($attributes);
 }
