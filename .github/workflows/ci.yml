@@ -21,8 +21,37 @@ jobs:
         with:
           args: lint --using=pint -v
 
-  build-image:
+  test-app:
     needs: lint-app
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: xdebug
+
+      - name: Create SQLite Database
+        run: |
+          touch database/testing.sqlite
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Copy Environment File
+        run: cp .env.example .env
+
+      - name: Generate App Key
+        run: php artisan key:generate
+
+      - name: Run Tests
+        run: php artisan test --parallel
+
+  build-image:
+    needs: [lint-app, test-app]
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
