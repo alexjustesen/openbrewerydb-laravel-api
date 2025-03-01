@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\Api\V1\GetBreweriesMeta;
 use App\Http\Controllers\Api\V1\GetBrewery;
 use App\Http\Controllers\Api\V1\ListBreweries;

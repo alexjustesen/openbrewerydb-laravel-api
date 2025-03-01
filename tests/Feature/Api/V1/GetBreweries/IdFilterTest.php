@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Brewery;
-
 test('breweries can be filtered by ids', function () {
     $brewery1 = createBrewery(['name' => 'First Brewery']);
     $brewery2 = createBrewery(['name' => 'Second Brewery']);

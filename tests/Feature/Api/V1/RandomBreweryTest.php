@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Brewery;
-
 test('random brewery returns a single brewery by default', function () {
     createBreweries(5);
 

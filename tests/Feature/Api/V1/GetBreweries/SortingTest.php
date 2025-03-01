@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Brewery;
-
 test('breweries can be sorted by name ascending', function () {
     createBrewery(['name' => 'Zebra Brewing']);
     createBrewery(['name' => 'Alpha Brewing']);
@@ -14,7 +12,7 @@ test('breweries can be sorted by name ascending', function () {
     expect($breweries->pluck('name')->toArray())->toBe([
         'Alpha Brewing',
         'Beta Brewing',
-        'Zebra Brewing'
+        'Zebra Brewing',
     ]);
 });
 
@@ -30,7 +28,7 @@ test('breweries can be sorted by name descending', function () {
     expect($breweries->pluck('name')->toArray())->toBe([
         'Zebra Brewing',
         'Beta Brewing',
-        'Alpha Brewing'
+        'Alpha Brewing',
     ]);
 });
 
@@ -43,9 +41,9 @@ test('breweries can be sorted by multiple fields', function () {
 
     $response->assertOk();
     $breweries = collect($response->json());
-    $firstTwo = $breweries->take(2)->map(fn($b) => ['name' => $b['name'], 'city' => $b['city']])->toArray();
+    $firstTwo = $breweries->take(2)->map(fn ($b) => ['name' => $b['name'], 'city' => $b['city']])->toArray();
     expect($firstTwo)->toBe([
         ['name' => 'Alpha Brewing', 'city' => 'Seattle'],
-        ['name' => 'Alpha Brewing', 'city' => 'Portland']
+        ['name' => 'Alpha Brewing', 'city' => 'Portland'],
     ]);
 });

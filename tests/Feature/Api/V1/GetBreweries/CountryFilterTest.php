@@ -1,16 +1,14 @@
 <?php
 
-use App\Models\Brewery;
-
 test('breweries can be filtered by country', function () {
     createBrewery([
         'name' => 'American Brewery',
-        'country' => 'United States'
+        'country' => 'United States',
     ]);
 
     createBrewery([
         'name' => 'Canadian Brewery',
-        'country' => 'Canada'
+        'country' => 'Canada',
     ]);
 
     $response = $this->getJson('/v1/breweries?by_country=Canada');
@@ -24,7 +22,7 @@ test('breweries can be filtered by country', function () {
 test('country filter is case insensitive', function () {
     createBrewery([
         'name' => 'Canadian Brewery',
-        'country' => 'Canada'
+        'country' => 'Canada',
     ]);
 
     $response = $this->getJson('/v1/breweries?by_country=canada');
@@ -38,12 +36,12 @@ test('country filter is case insensitive', function () {
 test('country filter supports partial matches', function () {
     createBrewery([
         'name' => 'American Brewery',
-        'country' => 'United States'
+        'country' => 'United States',
     ]);
 
     createBrewery([
         'name' => 'British Brewery',
-        'country' => 'United Kingdom'
+        'country' => 'United Kingdom',
     ]);
 
     $response = $this->getJson('/v1/breweries?by_country=United');

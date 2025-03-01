@@ -1,16 +1,14 @@
 <?php
 
-use App\Models\Brewery;
-
 test('breweries can be filtered by postal code', function () {
     createBrewery([
         'name' => 'Portland Brewery',
-        'postal_code' => '97201'
+        'postal_code' => '97201',
     ]);
 
     createBrewery([
         'name' => 'Seattle Brewery',
-        'postal_code' => '98101'
+        'postal_code' => '98101',
     ]);
 
     $response = $this->getJson('/v1/breweries?by_postal=97201');
@@ -24,17 +22,17 @@ test('breweries can be filtered by postal code', function () {
 test('postal code filter supports partial matches', function () {
     createBrewery([
         'name' => 'Portland Downtown',
-        'postal_code' => '97201'
+        'postal_code' => '97201',
     ]);
 
     createBrewery([
         'name' => 'Portland Suburbs',
-        'postal_code' => '97229'
+        'postal_code' => '97229',
     ]);
 
     createBrewery([
         'name' => 'Seattle Brewery',
-        'postal_code' => '98101'
+        'postal_code' => '98101',
     ]);
 
     $response = $this->getJson('/v1/breweries?by_postal=972');
@@ -48,7 +46,7 @@ test('postal code filter supports partial matches', function () {
 test('postal code filter handles special characters', function () {
     createBrewery([
         'name' => 'Canadian Brewery',
-        'postal_code' => 'V6B 1A1'
+        'postal_code' => 'V6B 1A1',
     ]);
 
     $response = $this->getJson('/v1/breweries?by_postal=V6B');

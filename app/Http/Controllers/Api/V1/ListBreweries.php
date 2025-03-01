@@ -95,11 +95,11 @@ class ListBreweries extends Controller
                     abort(400, 'Invalid coordinates format');
                 }
 
-                if (!is_numeric($values[0]) || $values[0] < -90 || $values[0] > 90) {
+                if (! is_numeric($values[0]) || $values[0] < -90 || $values[0] > 90) {
                     abort(400, 'Invalid latitude value');
                 }
 
-                if (!is_numeric($values[1]) || $values[1] < -180 || $values[1] > 180) {
+                if (! is_numeric($values[1]) || $values[1] < -180 || $values[1] > 180) {
                     abort(400, 'Invalid longitude value');
                 }
 

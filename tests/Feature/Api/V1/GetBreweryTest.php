@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Cache;
 use App\Enums\BreweryType;
+use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
     Cache::flush();
