@@ -59,7 +59,12 @@ class ListBreweries extends Controller
                 $query->where('postal_code', 'like', '%'.Str::trim($request->input('by_postal')).'%');
             })
             ->when($request->has('by_state'), function ($query) use ($request) {
-                $query->where('state_province', 'like', '%'.Str::trim($request->input('by_state')).'%');
+                $state = $request->input('by_state');
+
+                // Remove SQL injection vulnerabilities, allow snake_case, kebab-case, and pluses for spaces
+                $state = str_replace(['\\', '%', '+', '_', '-'], ['', '', ' ', ' ', ' '], $state);
+
+                $query->whereRaw('LOWER(state_province) LIKE LOWER(?)', ['%'.$state.'%']);
             })
             ->when($request->has('by_type'), function ($query) use ($request) {
                 $query->byType($request->input('by_type'));
